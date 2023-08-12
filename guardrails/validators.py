@@ -647,6 +647,9 @@ class ValidLength(Validator):
         logger.debug(
             f"Validating {value} is in length range {self._min} - {self._max}..."
         )
+        if isinstance(value, FieldReAsk):
+            print(value)
+            return schema
 
         if self._min is not None and len(value) < self._min:
             logger.debug(f"Value {value} is less than {self._min}.")
@@ -1360,15 +1363,13 @@ class ExtractiveSummary(Validator):
         n_all = len(sentences)
         n_verified = n_all - len(unverified)
         if 100 * n_verified / n_all < self.sentences_threshold:
-            unverified_sentences = "\n".join(
-                "- " + s for i, s in enumerate(sentences) if i in unverified
-            )
+            unverified_sentences = "\n- ".join(unverified)
             raise EventDetail(
                 key,
                 value,
                 schema,
                 (
-                    f"The summary has sentences that are not similar to any document:\n"
+                    f"The summary has sentences that are not similar to any document:\n- "
                     f"{unverified_sentences}"
                 ),
                 verified_sentences,
