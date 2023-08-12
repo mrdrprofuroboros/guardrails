@@ -651,7 +651,7 @@ class ValidLength(Validator):
         if self._min is not None and len(value) < self._min:
             logger.debug(f"Value {value} is less than {self._min}.")
 
-            # Add * character to make the value the correct length.
+            # Add * character to make the value the correct length
             if isinstance(value, str):
                 last_val = '*'
             else:
